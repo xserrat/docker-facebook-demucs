@@ -18,3 +18,6 @@ This process will take some time the first time due to the execution will:
 * Download the image with the whole needed environment to run the `facebook demucs` script.
 * Download the pretrained models
 * Execute the python command `demucs.separate` to split the track.
+
+## License
+This repository is released under the MIT license as found in the [LICENSE](LICENSE) file.

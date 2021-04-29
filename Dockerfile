@@ -10,7 +10,7 @@ RUN mkdir -p /lib/demucs
 
 WORKDIR /lib/demucs
 
-RUN git clone https://github.com/facebookresearch/demucs /lib/demucs
+RUN git clone -b master --single-branch https://github.com/facebookresearch/demucs /lib/demucs
 
 RUN python3 -m pip install -e .
 RUN python3 -m demucs.separate -d cpu test.mp3 # Trigger model download

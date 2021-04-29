@@ -1,4 +1,4 @@
-FROM continuumio/anaconda3:2020.11
+FROM python:3.8
 
 USER root
 
@@ -12,9 +12,9 @@ WORKDIR /lib/demucs
 
 RUN git clone https://github.com/facebookresearch/demucs /lib/demucs
 
-RUN conda env update -f environment-cpu.yml
-RUN conda init bash
-RUN echo "conda activate demucs" >> ~/.bashrc
+RUN python3 -m pip install -e .
+RUN python3 -m demucs.separate -d cpu test.mp3 # Trigger model download
+RUN rm -r separated  # cleanup
 
 VOLUME /data/input
 VOLUME /data/output

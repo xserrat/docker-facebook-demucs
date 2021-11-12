@@ -11,9 +11,8 @@ run: build ## Build & Run the demucs spliting the tracks placed in the input fol
 		--name=demucs \
 		-v $(current-dir)input:/data/input \
 		-v $(current-dir)output:/data/output \
-		-v $(current-dir)models:/data/models \
 		facebook/demucs:latest \
-		"python3 -m demucs.separate --out /data/output --models /data/models \
+		"python3 -m demucs.separate --out /data/output \
 		/data/input/$(track)"
 .PHONY:
 build: ## Build docker image with all needed to run the facebook demucs ML code

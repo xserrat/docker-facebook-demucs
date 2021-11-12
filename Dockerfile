@@ -18,7 +18,6 @@ RUN rm -r separated  # cleanup
 
 VOLUME /data/input
 VOLUME /data/output
-VOLUME /data/models
 
 ENTRYPOINT ["/bin/bash", "--login", "-c"]
 

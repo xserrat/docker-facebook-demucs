@@ -1,6 +1,7 @@
 FROM python:3.8
 
 USER root
+ENV TORCH_HOME=/data/models
 
 # Install Git
 RUN apt install git

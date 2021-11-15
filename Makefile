@@ -12,7 +12,6 @@ run: build ## Build & Run the demucs spliting the tracks placed in the input fol
 		-v $(current-dir)input:/data/input \
 		-v $(current-dir)output:/data/output \
 		-v $(current-dir)models:/data/models \
-		-e TORCH_HOME=/data/models \
 		facebook/demucs:latest \
 		"python3 -m demucs.separate --out /data/output \
 		/data/input/$(track)"

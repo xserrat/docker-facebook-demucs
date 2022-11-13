@@ -1,21 +1,26 @@
-FROM python:3.8
+FROM python:3.8 as packages
 
 USER root
 ENV TORCH_HOME=/data/models
 
-# Install Git
-RUN apt install git
+# Install needed packages
+RUN apt update && apt install -y \
+    git \
+    ffmpeg
 
 # Install Facebook Demucs
 RUN mkdir -p /lib/demucs
 
 WORKDIR /lib/demucs
 
-RUN git clone -b main --single-branch https://github.com/facebookresearch/demucs /lib/demucs
+RUN git clone --depth 1 --branch main https://github.com/facebookresearch/demucs .
 
+RUN sed -i 's/lameenc>=1.2/lameenc>=1.4.1/g' requirements.txt requirements_minimal.txt  \
+    && cat requirements.txt \
+    && cat requirements_minimal.txt
 RUN python3 -m pip install -e .
-RUN python3 -m demucs.separate -d cpu test.mp3 # Trigger model download
-RUN rm -r separated  # cleanup
+RUN python3 -m demucs.separate -d cpu --mp3 test.mp3 # Trigger model download \
+    && rm -r separated  # cleanup
 
 VOLUME /data/input
 VOLUME /data/output

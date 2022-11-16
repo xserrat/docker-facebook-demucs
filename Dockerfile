@@ -1,12 +1,13 @@
-FROM python:3.8 as packages
+FROM python:3.8-alpine3.16
 
 USER root
 ENV TORCH_HOME=/data/models
 
 # Install needed packages
-RUN apt update && apt install -y \
+RUN apk update && apk add \
     git \
-    ffmpeg
+    ffmpeg \
+    && python3 -m pip install --upgrade pip
 
 # Install Facebook Demucs
 RUN mkdir -p /lib/demucs

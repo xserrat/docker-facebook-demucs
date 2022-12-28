@@ -1,0 +1,10 @@
+name: Run Demucs
+on: [push]
+jobs:
+  Run-Demucs:
+    runs-on: macos-11
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Generate docker image
+        run: make build

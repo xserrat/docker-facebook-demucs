@@ -1,4 +1,4 @@
-FROM python:3.8-alpine3.16 as lameenc-build
+FROM python:3.11-alpine3.15 as lameenc-build
 
 ENV PATH="/opt/venv/bin:$PATH"
 
@@ -20,13 +20,13 @@ RUN python3 -m venv /opt/venv
 RUN python3 -m pip install /lib/lameenc/build/lameenc-1.3.1-cp38-cp38-linux_x86_64.whl
 
 # syntax=docker/dockerfile:1
-FROM python:3.11-alpine3.16
+FROM python:3.11-alpine3.15
 USER root
 ENV PATH="/opt/venv/bin:$PATH"
 ENV TORCH_HOME=/data/models
 ENV REQUIREMENTS_FILE=requirements_minimal.txt
 
-#COPY --from=lameenc-build /opt/venv /opt/venv
+COPY --from=lameenc-build /opt/venv /opt/venv
 
 # Install needed packages
 RUN apk update && apk add \
@@ -43,9 +43,7 @@ RUN git clone --depth 1 --branch main https://github.com/facebookresearch/demucs
 
 RUN python3 -m venv /opt/venv
 
-#RUN sed -i '/lameenc>=1.2/d' ${REQUIREMENTS_FILE}
-RUN sed -i 's/lameenc>=1.2/lameenc==1.4.2/g' ${REQUIREMENTS_FILE}
-RUN cat ${REQUIREMENTS_FILE}
+RUN sed -i '/lameenc>=1.2/d' ${REQUIREMENTS_FILE}
 RUN python3 -m pip install -r ${REQUIREMENTS_FILE}
 RUN python3 -m demucs.separate -d cpu --mp3 test.mp3 # Trigger model download \
     && rm -r separated  # cleanup

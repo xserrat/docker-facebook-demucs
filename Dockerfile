@@ -1,4 +1,5 @@
-FROM python:3.10
+# Base image supports Nvidia CUDA but does not require it and can also run demucs on the CPU
+FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 USER root
 ENV TORCH_HOME=/data/models
@@ -8,6 +9,8 @@ ENV TORCH_HOME=/data/models
 RUN apt update && apt install -y --no-install-recommends \
     ffmpeg \
     git \
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone Facebook Demucs

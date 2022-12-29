@@ -14,19 +14,30 @@ git clone https://github.com/xserrat/docker-facebook-demucs.git demucs
 make run track=mysong.mp3
 ```
 
-Note that the standard `demucs` model will be used by default. You can specify a different model to use by passing `model=<model name>` to the `make` command. For example:
-```bash
-make run track=mysong.mp3 model=htdemucs_ft
-```
-
-See https://github.com/facebookresearch/demucs#separating-tracks for a list of available models to use.
-
 This process will take some time the first time it is run, as the execution will:
 * Download the Docker image that is setup to run the `facebook demucs` script.
 * Download the pretrained models.
 * Execute `demucs` to split the track.
 
 Subsequent runs will not need to download the Docker image or download the models, unless the model specified has not yet been used.
+
+#### Options
+The following options are available when splitting music tracks with the `run` job:
+
+Option | Default Value | Description
+--- | --- | ---
+`gpu`       | `false` | Enable Nvidia CUDA support (requires an Nvidia GPU).
+`model`     | `demucs`| The model used for audio separation. See https://github.com/facebookresearch/demucs#separating-tracks for a list of available models to use.
+`mp3output` | `false` | Output separated audio in `mp3` format instead of the default `wav` format.
+
+Example commands:
+```bash
+# Use the "fine tuned" demucs model
+make run track=mysong.mp3 model=htdemucs_ft
+
+# Enable Nvidia CUDA support and output separated audio in mp3 format
+make run track=mysong.mp3 gpu=true mp3output=true
+```
 
 ## License
 This repository is released under the MIT license as found in the [LICENSE](LICENSE) file.

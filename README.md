@@ -1,5 +1,5 @@
 # Docker Facebook Demucs
-This repository dockerize the [Facebook Demucs](https://github.com/facebookresearch/demucs)
+This repository dockerizes [Facebook Demucs](https://github.com/facebookresearch/demucs)
 to split music tracks into different tracks (bass, drums, voice, others).
 
 ## Usage
@@ -14,10 +14,19 @@ git clone https://github.com/xserrat/docker-facebook-demucs.git demucs
 make run track=mysong.mp3
 ```
 
-This process will take some time the first time due to the execution will:
-* Download the image with the whole needed environment to run the `facebook demucs` script.
-* Download the pretrained models
-* Execute the python command `demucs.separate` to split the track.
+Note that the standard `demucs` model will be used by default. You can specify a different model to use by passing `model=<model name>` to the `make` command. For example:
+```bash
+make run track=mysong.mp3 model=htdemucs_ft
+```
+
+See https://github.com/facebookresearch/demucs#separating-tracks for a list of available model names to use.
+
+This process will take some time the first time it is run, as the execution will:
+* Download the Docker image that is setup to run the `facebook demucs` script.
+* Download the pretrained models.
+* Execute `demucs` to split the track.
+
+Subsequent runs will not need to download the Docker image or download the models, unless the model specified has not yet been used.
 
 ## License
 This repository is released under the MIT license as found in the [LICENSE](LICENSE) file.

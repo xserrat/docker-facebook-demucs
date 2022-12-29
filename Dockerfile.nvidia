@@ -1,10 +1,11 @@
-FROM python:3.8
+FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 USER root
 ENV TORCH_HOME=/data/models
 
-# Install Git
-RUN apt install git
+# Install required tools
+# Note: torchaudio >= 0.12 now requires ffmpeg on all platforms, see https://github.com/facebookresearch/demucs/blob/main/docs/linux.md
+RUN apt update && apt -y install git ffmpeg python3 python3-pip
 
 # Install Facebook Demucs
 RUN mkdir -p /lib/demucs
@@ -13,13 +14,15 @@ WORKDIR /lib/demucs
 
 RUN git clone -b main --single-branch https://github.com/facebookresearch/demucs /lib/demucs
 
+# Install dependencies
 RUN python3 -m pip install -e .
-RUN python3 -m demucs.separate -d cpu test.mp3 # Trigger model download
-RUN rm -r separated  # cleanup
+# Run once to trigger the default model download
+RUN python3 -m demucs -d cpu test.mp3 
+# Cleanup output - we just used this to download the model
+RUN rm -r separated
 
 VOLUME /data/input
 VOLUME /data/output
 VOLUME /data/models
 
 ENTRYPOINT ["/bin/bash", "--login", "-c"]
-

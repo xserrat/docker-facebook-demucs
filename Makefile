@@ -17,8 +17,7 @@ run: ## Run demucs to split the specified track in the input folder
 		xserrat/facebook-demucs:latest \
 		"python3 -m demucs -n $(model) \
 			--out /data/output \
-			/data/input/$(track) \
-			&& chmod 777 -R /data/output"
+			/data/input/$(track)"
 
 .PHONY:
 run-interactive: ## Run the docker container interactively

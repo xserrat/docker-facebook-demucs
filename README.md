@@ -8,8 +8,8 @@ to split music tracks into different tracks (bass, drums, voice, others).
 git clone https://github.com/xserrat/docker-facebook-demucs.git demucs
 ```
 ### 2. Split a music track
-1. Copy the track you want to split into the `input` folder (i.e: `input/mysong.mp3`).
-2. Execute Demucs specifying the `track` argument with only the name of the file:
+1. Copy the track you want to split into the `input` folder (e.g., `input/mysong.mp3`).
+2. Execute `demucs` via the `run` job in the `Makefile`, specifying the `track` argument with only the name of the file:
 ```bash
 make run track=mysong.mp3
 ```
@@ -19,7 +19,7 @@ Note that the standard `demucs` model will be used by default. You can specify a
 make run track=mysong.mp3 model=htdemucs_ft
 ```
 
-See https://github.com/facebookresearch/demucs#separating-tracks for a list of available model names to use.
+See https://github.com/facebookresearch/demucs#separating-tracks for a list of available models to use.
 
 This process will take some time the first time it is run, as the execution will:
 * Download the Docker image that is setup to run the `facebook demucs` script.

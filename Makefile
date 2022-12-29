@@ -32,3 +32,7 @@ run-interactive: ## Run the docker container interactively
 .PHONY:
 build: ## Build the default docker image which runs demucs using CPU only
 	docker build --no-cache -t xserrat/facebook-demucs:latest -f Dockerfile.default .
+
+.PHONY:
+build-nvidia: ## Build the Nvidia docker image which runs demucs using CUDA if you have a compatible Nvidia GPU
+	docker build --no-cache -t xserrat/facebook-demucs-nvidia:latest -f Dockerfile.nvidia .

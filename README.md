@@ -41,7 +41,7 @@ make run track=mysong.mp3 gpu=true mp3output=true
 
 ### Run Interactively
 
-To experiment with other demucs options on the command line, you can also run the Docker image interactively via the `run-interactive` job. Note that only the `gpu` option is applicable for this job.
+To experiment with other `demucs` options on the command line, you can also run the Docker image interactively via the `run-interactive` job. Note that only the `gpu` option is applicable for this job.
 
 Example:
 ```bash

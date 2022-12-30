@@ -26,9 +26,10 @@ The following options are available when splitting music tracks with the `run` j
 
 Option | Default Value | Description
 --- | --- | ---
-`gpu`       | `false` | Enable Nvidia CUDA support (requires an Nvidia GPU).
-`model`     | `demucs`| The model used for audio separation. See https://github.com/facebookresearch/demucs#separating-tracks for a list of available models to use.
-`mp3output` | `false` | Output separated audio in `mp3` format instead of the default `wav` format.
+`gpu`           | `false` | Enable Nvidia CUDA support (requires an Nvidia GPU).
+`model`         | `demucs`| The model used for audio separation. See https://github.com/facebookresearch/demucs#separating-tracks for a list of available models to use.
+`mp3output`     | `false` | Output separated audio in `mp3` format instead of the default `wav` format.
+`splittrack`    |         | Individual track to split/separate from the others (e.g., you only want to separate drums). Valid options are `bass`, `drums`, `vocals` and `other`. Other values may be allowed if the model can separate additional track types.
 
 Example commands:
 ```bash

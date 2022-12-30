@@ -5,6 +5,7 @@ current-dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 gpu = false
 mp3output = false
 model = htdemucs
+splittrack =
 
 .PHONY:
 init:
@@ -13,6 +14,9 @@ ifeq ($(gpu), true)
 endif
 ifeq ($(mp3output), true)
   demucs-mp3-option = --mp3
+endif
+ifneq ($(splittrack),)
+  demucs-twostems-option = --two-stems $(splittrack)
 endif
 
 .PHONY:
@@ -31,6 +35,7 @@ run: init ## Run demucs to split the specified track in the input folder
 		"python3 -m demucs -n $(model) \
 			--out /data/output \
 			$(demucs-mp3-option) \
+			$(demucs-twostems-option) \
 			/data/input/$(track)"
 
 .PHONY:

@@ -36,7 +36,7 @@ run: init ## Run demucs to split the specified track in the input folder
 			--out /data/output \
 			$(demucs-mp3-option) \
 			$(demucs-twostems-option) \
-			/data/input/$(track)"
+			\"/data/input/$(track)\""
 
 .PHONY:
 run-interactive: init ## Run the docker container interactively to experiment with demucs options

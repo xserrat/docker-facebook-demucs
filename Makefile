@@ -7,7 +7,7 @@ mp3output = false
 model = htdemucs
 splittrack =
 
-.DEFAULT_GOAL = help
+.DEFAULT_GOAL := help
 
 .PHONY:
 init:

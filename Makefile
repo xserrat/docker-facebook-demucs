@@ -7,6 +7,8 @@ mp3output = false
 model = htdemucs
 splittrack =
 
+.DEFAULT_GOAL = help
+
 .PHONY:
 init:
 ifeq ($(gpu), true)

@@ -22,11 +22,13 @@ ifneq ($(splittrack),)
 endif
 
 .PHONY:
+.SILENT:
 help: ## Display available targets
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf " \033[36m%-20s\033[0m  %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 .PHONY:
-run: init ## Run demucs to split the specified track in the input folder
+.SILENT:
+run: init build ## Run demucs to split the specified track in the input folder
 	docker run --rm -i \
 		--name=demucs \
 		$(docker-gpu-option) \
@@ -41,7 +43,8 @@ run: init ## Run demucs to split the specified track in the input folder
 			\"/data/input/$(track)\""
 
 .PHONY:
-run-interactive: init ## Run the docker container interactively to experiment with demucs options
+.SILENT:
+run-interactive: init build ## Run the docker container interactively to experiment with demucs options
 	docker run --rm -it \
 		--name=demucs-interactive \
 		$(docker-gpu-option) \
@@ -52,5 +55,6 @@ run-interactive: init ## Run the docker container interactively to experiment wi
 		/bin/bash
 
 .PHONY:
+.SILENT:
 build: ## Build the docker image which supports running demucs with CPU only or with Nvidia CUDA on a supported GPU
 	docker build --no-cache -t xserrat/facebook-demucs:latest .

@@ -3,6 +3,7 @@ FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 USER root
 ENV TORCH_HOME=/data/models
+ENV OMP_NUM_THREADS=1
 
 # Install required tools
 # Notes:

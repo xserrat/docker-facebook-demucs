@@ -18,7 +18,7 @@ RUN apt update && apt install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone Facebook Demucs
-RUN git clone -b main --single-branch https://github.com/facebookresearch/demucs /lib/demucs
+RUN git clone --depth 1 --branch v4.0.0 --single-branch https://github.com/facebookresearch/demucs /lib/demucs
 WORKDIR /lib/demucs
 
 # Install dependencies

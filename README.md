@@ -1,5 +1,5 @@
 # Docker Facebook Demucs
-This repository dockerizes [Facebook Demucs](https://github.com/facebookresearch/demucs)
+This repository dockerizes [Demucs](https://github.com/adefossez/demucs)
 to split music tracks into different tracks (bass, drums, voice, others).
 
 ## Usage

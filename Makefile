@@ -5,6 +5,9 @@ current-dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 gpu = false
 mp3output = false
 model = htdemucs
+shifts = 1
+overlap = 0.25
+jobs = 1
 splittrack =
 
 .DEFAULT_GOAL := help
@@ -21,6 +24,24 @@ ifneq ($(splittrack),)
   demucs-twostems-option = --two-stems $(splittrack)
 endif
 
+# Construct commands
+docker-run-command = docker run --rm -i \
+						--name=demucs \
+						$(docker-gpu-option) \
+						-v $(current-dir)input:/data/input \
+						-v $(current-dir)output:/data/output \
+						-v $(current-dir)models:/data/models \
+						xserrat/facebook-demucs:latest
+
+demucs-command = "python3 -m demucs -n $(model) \
+					--out /data/output \
+					$(demucs-mp3-option) \
+					$(demucs-twostems-option) \
+					--shifts $(shifts) \
+					--overlap $(overlap) \
+					-j $(jobs) \
+					\"/data/input/$(track)\""
+
 .PHONY:
 .SILENT:
 help: ## Display available targets
@@ -29,30 +50,13 @@ help: ## Display available targets
 .PHONY:
 .SILENT:
 run: init build ## Run demucs to split the specified track in the input folder
-	docker run --rm -i \
-		--name=demucs \
-		$(docker-gpu-option) \
-		-v $(current-dir)input:/data/input \
-		-v $(current-dir)output:/data/output \
-		-v $(current-dir)models:/data/models \
-		xserrat/facebook-demucs:latest \
-		"python3 -m demucs -n $(model) \
-			--out /data/output \
-			$(demucs-mp3-option) \
-			$(demucs-twostems-option) \
-			\"/data/input/$(track)\""
+	@echo $(docker-run-command) $(demucs-command)
+	$(docker-run-command) $(demucs-command)
 
 .PHONY:
 .SILENT:
 run-interactive: init build ## Run the docker container interactively to experiment with demucs options
-	docker run --rm -it \
-		--name=demucs-interactive \
-		$(docker-gpu-option) \
-		-v $(current-dir)input:/data/input \
-		-v $(current-dir)output:/data/output \
-		-v $(current-dir)models:/data/models \
-		xserrat/facebook-demucs:latest \
-		/bin/bash
+	$(docker-run-command) /bin/bash
 
 .PHONY:
 .SILENT:

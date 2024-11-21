@@ -26,21 +26,21 @@ endif
 
 # Construct commands
 docker-run-command = docker run --rm -i \
-						--name=demucs \
-						$(docker-gpu-option) \
-						-v $(current-dir)input:/data/input \
-						-v $(current-dir)output:/data/output \
-						-v $(current-dir)models:/data/models \
-						xserrat/facebook-demucs:latest
+	--name=demucs \
+	$(docker-gpu-option) \
+	-v $(current-dir)input:/data/input \
+	-v $(current-dir)output:/data/output \
+	-v $(current-dir)models:/data/models \
+	xserrat/facebook-demucs:latest
 
 demucs-command = "python3 -m demucs -n $(model) \
-					--out /data/output \
-					$(demucs-mp3-option) \
-					$(demucs-twostems-option) \
-					--shifts $(shifts) \
-					--overlap $(overlap) \
-					-j $(jobs) \
-					\"/data/input/$(track)\""
+	--out /data/output \
+	$(demucs-mp3-option) \
+	$(demucs-twostems-option) \
+	--shifts $(shifts) \
+	--overlap $(overlap) \
+	-j $(jobs) \
+	\"/data/input/$(track)\""
 
 .PHONY:
 .SILENT:

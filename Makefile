@@ -24,6 +24,11 @@ ifneq ($(splittrack),)
   demucs-twostems-option = --two-stems $(splittrack)
 endif
 
+# Build commands
+docker-build-command = docker build -t xserrat/facebook-demucs:latest \
+	--build-arg gpu=$(gpu) \
+	.
+
 # Construct commands
 docker-run-command = docker run --rm -i \
 	--name=demucs \
@@ -61,4 +66,9 @@ run-interactive: init build ## Run the docker container interactively to experim
 .PHONY:
 .SILENT:
 build: ## Build the docker image which supports running demucs with CPU only or with Nvidia CUDA on a supported GPU
-	docker build -t xserrat/facebook-demucs:latest .
+	$(docker-build-command)
+
+.PHONY:
+.SILENT:
+run-no-build: ## Run demucs without build 
+	$(docker-run-command) $(demucs-command)

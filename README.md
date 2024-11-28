@@ -52,6 +52,14 @@ Example:
 make run-interactive gpu=true
 ```
 
+### Run without build
+
+To run the `demucs` without building the docker image again
+
+```bash
+make run-no-build track=mysong.mp3
+```
+
 ## Building the Image
 
 The Docker image can be built locally via the `build` job:

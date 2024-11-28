@@ -36,6 +36,9 @@ RUN pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 \
 # Install requirements
 RUN pip install -r requirements.txt
 
+# Downgrade numpy
+RUN pip install -U "numpy<2"
+
 # Run once to ensure demucs works and trigger the default model download
 RUN python3 -m demucs -d cpu test.mp3 
 # Cleanup output - we just used this to download the model

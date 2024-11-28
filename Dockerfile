@@ -1,5 +1,7 @@
 # Base image supports Nvidia CUDA but does not require it and can also run demucs on the CPU
-FROM nvidia/cuda:12.6.2-base-ubuntu22.04
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+
+ARG gpu
 
 USER root
 ENV TORCH_HOME=/data/models
@@ -16,6 +18,9 @@ RUN apt update && apt install -y --no-install-recommends \
     python3 \
     python3-dev \
     python3-pip \
+    nvidia-cuda-toolkit \
+    && apt-get autoremove -y \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone Demucs (now maintained in the original author's github space)
@@ -24,8 +29,13 @@ WORKDIR /lib/demucs
 # Checkout known stable commit on main
 RUN git checkout b9ab48cad45976ba42b2ff17b229c071f0df9390
 
-# Install dependencies with overrides for known working versions on this base image
-RUN python3 -m pip install -e . "torch<2" "torchaudio<2" "numpy<2" --no-cache-dir
+# Install torch known working version on this base image
+RUN pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 \
+    $( [ "$gpu" = "true" ] && echo "--index-url https://download.pytorch.org/whl/cu118" )
+
+# Install requirements
+RUN pip install -r requirements.txt
+
 # Run once to ensure demucs works and trigger the default model download
 RUN python3 -m demucs -d cpu test.mp3 
 # Cleanup output - we just used this to download the model
